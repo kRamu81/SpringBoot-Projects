@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encryption Terminal</title>
+    <style>
+   
+   
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🔐 Encryption Terminal</h2>
+
+<input type="text" id="message" placeholder="Enter text here" />
+
+<br>
+
+<button onclick="encrypt()">Encrypt</button>
+<button onclick="decrypt()">Decrypt</button>
+
+<div id="result"></div>
+
+<script>
+    function encrypt() {
+        let message = document.getElementById("message").value;
+
+        fetch("/api/encrypt?message=" + message)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML =
+                    "Encrypted: " + data.transformedText;
+            });
+    }
+
+    function decrypt() {
+        let message = document.getElementById("message").value;
+
+        fetch("/api/decrypt?message=" + message)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML =
+                    "Decrypted: " + data.transformedText;
+            });
+    }
+</script>
+
+</body>
+</html>
