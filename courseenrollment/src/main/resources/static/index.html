@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Course Enrollment</title>
+</head>
+
+<body>
+
+<h2>Add Course</h2>
+
+<input type="text" id="courseName" placeholder="Course Name"><br><br>
+
+<input type="text" id="instructor" placeholder="Instructor"><br><br>
+
+<input type="number" id="duration" placeholder="Duration"><br><br>
+
+<button onclick="addCourse()">Add Course</button>
+
+<h2>All Courses</h2>
+
+<button onclick="getCourses()">Load Courses</button>
+
+<ul id="courseList"></ul>
+
+<script>
+
+function addCourse(){
+
+const course = {
+
+courseName: document.getElementById("courseName").value,
+
+instructor: document.getElementById("instructor").value,
+
+duration: document.getElementById("duration").value
+
+}
+
+fetch("http://localhost:8084/courses",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(course)
+
+})
+
+.then(response => response.json())
+
+.then(data => {
+
+alert("Course Added")
+
+})
+
+}
+
+function getCourses(){
+
+fetch("http://localhost:8084/courses")
+
+.then(response => response.json())
+
+.then(data => {
+
+const list = document.getElementById("courseList")
+
+list.innerHTML=""
+
+data.forEach(course => {
+
+const li = document.createElement("li")
+
+li.innerText = course.courseName + " - " + course.instructor
+
+list.appendChild(li)
+
+})
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>
